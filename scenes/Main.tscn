@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://54xfwed2lhos"]
+
+[ext_resource type="Texture2D" uid="uid://be8vs1c5djbqc" path="res://assets/hdris/sunflowers_puresky_4k.hdr" id="1_i7hfp"]
+[ext_resource type="Texture2D" uid="uid://ck3qvvei0m42f" path="res://assets/textures/texture_07.png" id="2_7f68p"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="3_ebgey"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_vchvj"]
+panorama = ExtResource("1_i7hfp")
+
+[sub_resource type="Sky" id="Sky_gcn8m"]
+sky_material = SubResource("PanoramaSkyMaterial_vchvj")
+
+[sub_resource type="Environment" id="Environment_xuo2n"]
+background_mode = 2
+sky = SubResource("Sky_gcn8m")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uh64j"]
+albedo_texture = ExtResource("2_7f68p")
+uv1_triplanar = true
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hvphs"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3a860"]
+height = 1.2
+
+[node name="World" type="Node3D"]
+
+[node name="Env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+environment = SubResource("Environment_xuo2n")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 5.75231, 0)
+shadow_enabled = true
+
+[node name="Stage" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(20, 1, 20)
+material = SubResource("StandardMaterial3D_uh64j")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.299, 1.97702, 0)
+use_collision = true
+size = Vector3(20, 1, 20)
+material = SubResource("StandardMaterial3D_uh64j")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("3_ebgey")
+
+[node name="Standing" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_hvphs")
+
+[node name="Crouching" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.599839, 0)
+shape = SubResource("CapsuleShape3D_3a860")
+disabled = true
+
+[node name="Head" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/Head"]
+
+[node name="RayCast3D" type="RayCast3D" parent="Player"]
+target_position = Vector3(0, 2, 0)
