@@ -23,6 +23,7 @@ var sprinting = false
 var crouching = false
 var free_looking = false
 var sliding = false
+var gliding = false
 
 # Sliding vars
 
@@ -30,6 +31,15 @@ var slide_timer = 0.0
 var slide_timer_max = 1.0
 var slide_vector = Vector2.ZERO
 var slide_speed = 10.0
+
+# Jetpack vars
+
+const JETPACK_FORCE = 10.0
+const MAX_JETPACK_FUEL = 8.0
+
+var jetpack_fuel = 8.0
+var fuel_consumption = 3.0
+var fuel_recharge = 0.5
 
 # Head bob vars
 const HEAD_BOBBING_SPRINTING_SPEED = 22.0
@@ -46,6 +56,8 @@ var head_bobbing_current_intensity = 0.0
 
 # Movement vars
 const JUMP_VELOCITY = 4.5
+const MAX_HEIGHT = 10.0
+
 var crouching_depth = -0.5
 var free_look_tilt = 8
 
@@ -175,9 +187,16 @@ func _physics_process(_delta):
 		velocity.y -= gravity * _delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") && is_on_floor() && crouching != true:
+	if Input.is_action_just_pressed("jump") && is_on_floor() && crouching != true:
 		velocity.y = JUMP_VELOCITY
 		sliding = false
+	
+	elif Input.is_action_pressed("jump") && !is_on_floor() && jetpack_fuel > 0:
+		velocity.y += JETPACK_FORCE * _delta
+		jetpack_fuel -= fuel_consumption * _delta
+	
+	elif is_on_floor():
+		jetpack_fuel = min(jetpack_fuel + fuel_recharge * _delta, MAX_JETPACK_FUEL)
 
 	direction = lerp(direction, (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized(), _delta * lerp_speed)
 	
@@ -196,3 +215,7 @@ func _physics_process(_delta):
 		velocity.z = move_toward(velocity.z, 0, current_speed)
 
 	move_and_slide()
+	
+	if global_transform.origin.y > MAX_HEIGHT:
+		global_transform.origin.y = MAX_HEIGHT
+		velocity.y = 0

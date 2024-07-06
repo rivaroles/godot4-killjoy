@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://54xfwed2lhos"]
+[gd_scene load_steps=11 format=3 uid="uid://54xfwed2lhos"]
 
 [ext_resource type="Texture2D" uid="uid://be8vs1c5djbqc" path="res://assets/hdris/sunflowers_puresky_4k.hdr" id="1_i7hfp"]
 [ext_resource type="Texture2D" uid="uid://ck3qvvei0m42f" path="res://assets/textures/texture_07.png" id="2_7f68p"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="3_ebgey"]
+[ext_resource type="PackedScene" uid="uid://d351bqtkre4d1" path="res://assets/models/Sniper Rifle West.glb" id="4_nsvtq"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_vchvj"]
 panorama = ExtResource("1_i7hfp")
@@ -70,6 +71,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 [node name="Eyes" type="Node3D" parent="Player/Neck/Head"]
 
 [node name="Camera3D" type="Camera3D" parent="Player/Neck/Head/Eyes"]
+
+[node name="Gun" parent="Player/Neck/Head/Eyes/Camera3D" instance=ExtResource("4_nsvtq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.364812, -0.167941, -0.268294)
 
 [node name="RayCast3D" type="RayCast3D" parent="Player"]
 target_position = Vector3(0, 2, 0)
