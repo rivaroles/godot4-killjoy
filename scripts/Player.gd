@@ -9,6 +9,13 @@ extends CharacterBody3D
 @onready var roof_check = $RayCast3D
 @onready var camera_3d = $Neck/Head/Eyes/Camera3D
 
+# Gun nodes
+@onready var gun = $Neck/Head/Eyes/Camera3D/Gun/AnimationPlayer
+@onready var gun_barrel = $Neck/Head/Eyes/Camera3D/Gun/RayCast3D
+
+var bullet = load("res://scenes/Bullet.tscn")
+var instance
+
 # Speed vars (player speed)
 var current_speed = 5.0
 
@@ -35,9 +42,9 @@ var slide_speed = 10.0
 # Jetpack vars
 
 const JETPACK_FORCE = 10.0
-const MAX_JETPACK_FUEL = 8.0
+const MAX_JETPACK_FUEL = 10.0
 
-var jetpack_fuel = 8.0
+var jetpack_fuel = 10.0
 var fuel_consumption = 3.0
 var fuel_recharge = 0.5
 
@@ -159,6 +166,15 @@ func _physics_process(_delta):
 		if slide_timer <= 0:
 			sliding = false
 			free_looking = false
+			
+	# Handle shooting
+	if Input.is_action_pressed("shoot"):
+		if !gun.is_playing():
+			gun.play("Shoot")
+			instance = bullet.instantiate()
+			instance.position = gun_barrel.global_position
+			instance.transform.basis = gun_barrel.global_transform.basis
+			get_parent().add_child(instance)
 	
 	# Head bobbing
 	if sprinting:

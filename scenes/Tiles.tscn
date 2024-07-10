@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=3 uid="uid://butbteptvtxw3"]
+
+[ext_resource type="PackedScene" uid="uid://y6h3o6pngc5t" path="res://assets/models/Scenario/GLB format/floor.glb" id="1_r4cg4"]
+[ext_resource type="PackedScene" uid="uid://7xs2d17n4ege" path="res://assets/models/Scenario/GLB format/wall.glb" id="2_yafvd"]
+[ext_resource type="PackedScene" uid="uid://clinsfdxixm6t" path="res://assets/models/Scenario/GLB format/wall-window.glb" id="3_vofsm"]
+[ext_resource type="PackedScene" uid="uid://sypwkv4bkyms" path="res://assets/models/Scenario/GLB format/wall-pillar.glb" id="4_ioojr"]
+[ext_resource type="PackedScene" uid="uid://cag41ryibiilu" path="res://assets/models/Scenario/GLB format/wall-corner.glb" id="5_u7ycm"]
+
+[node name="Tiles" type="Node3D"]
+
+[node name="floor2" parent="." instance=ExtResource("1_r4cg4")]
+
+[node name="wall2" parent="." instance=ExtResource("2_yafvd")]
+
+[node name="wall-window2" parent="." instance=ExtResource("3_vofsm")]
+
+[node name="wall-pillar2" parent="." instance=ExtResource("4_ioojr")]
+
+[node name="wall-corner2" parent="." instance=ExtResource("5_u7ycm")]

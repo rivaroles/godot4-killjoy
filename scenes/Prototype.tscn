@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqsfo1x08cbmv"]
+
+[ext_resource type="PackedScene" uid="uid://y6h3o6pngc5t" path="res://assets/models/Scenario/GLB format/floor.glb" id="1_bmvpa"]
+[ext_resource type="Texture2D" uid="uid://crwdd3g3foow8" path="res://assets/textures/texture_03.png" id="2_cyxkj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ehev2"]
+albedo_texture = ExtResource("2_cyxkj")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_6m3r4"]
+material = SubResource("StandardMaterial3D_ehev2")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_jfhy7"]
+points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5)
+
+[node name="Prototype" type="Node3D"]
+
+[node name="floor2" parent="." instance=ExtResource("1_bmvpa")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_6m3r4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_jfhy7")
