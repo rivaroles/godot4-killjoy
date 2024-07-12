@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://b851ilew2leus"]
+
+[ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_l6rqt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yjt2y"]
+albedo_color = Color(0.948771, 0, 0.194284, 1)
+uv1_triplanar = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cm8j4"]
+material = SubResource("StandardMaterial3D_yjt2y")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7rrmc"]
+
+[sub_resource type="Animation" id="Animation_7u7j5"]
+resource_name = "Hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(4.7887e-05, 1e-05, 1e-05),
+"update": 0,
+"values": [Color(0.948771, 0, 0.194284, 1), Color(1, 1, 1, 1), Color(0.948771, 0, 0.194284, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_0veww"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.948771, 0, 0.194284, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eope4"]
+_data = {
+"Hurt": SubResource("Animation_7u7j5"),
+"RESET": SubResource("Animation_0veww")
+}
+
+[node name="Enemy" type="CharacterBody3D"]
+script = ExtResource("1_l6rqt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_cm8j4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_7rrmc")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eope4")
+}

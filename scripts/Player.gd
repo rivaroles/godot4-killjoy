@@ -9,6 +9,9 @@ extends CharacterBody3D
 @onready var roof_check = $RayCast3D
 @onready var camera_3d = $Neck/Head/Eyes/Camera3D
 
+# Health nodes
+var health = 120.0
+
 # Gun nodes
 @onready var gun = $Neck/Head/Eyes/Camera3D/Gun/AnimationPlayer
 @onready var gun_barrel = $Neck/Head/Eyes/Camera3D/Gun/RayCast3D

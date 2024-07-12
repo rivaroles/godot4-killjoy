@@ -1,5 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://54xfwed2lhos"]
+[gd_scene load_steps=17 format=3 uid="uid://54xfwed2lhos"]
 
+[ext_resource type="Script" path="res://scripts/EnemySpawner.gd" id="1_f5vu0"]
 [ext_resource type="Texture2D" uid="uid://be8vs1c5djbqc" path="res://assets/hdris/sunflowers_puresky_4k.hdr" id="1_i7hfp"]
 [ext_resource type="PackedScene" uid="uid://fg24gthlse1n" path="res://scenes/Water.tscn" id="2_ndk50"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="3_ebgey"]
@@ -38,6 +39,21 @@ albedo_color = Color(0.677609, 0, 0.253004, 1)
 material = SubResource("StandardMaterial3D_f774m")
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_f5vu0")
+
+[node name="Spawn Holder" type="Node3D" parent="."]
+
+[node name="Spawn1" type="Node3D" parent="Spawn Holder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 53)
+
+[node name="Spawn2" type="Node3D" parent="Spawn Holder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33)
+
+[node name="Spawn3" type="Node3D" parent="Spawn Holder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 0, 0)
+
+[node name="Spawn4" type="Node3D" parent="Spawn Holder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0, 0)
 
 [node name="Env" type="Node3D" parent="."]
 
