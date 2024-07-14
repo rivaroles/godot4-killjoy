@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://cufc0bo13clby"]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_ne2l1"]
+[ext_resource type="PackedScene" uid="uid://cwk1j0k4x4jca" path="res://scenes/Gun.tscn" id="2_g0avc"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hvphs"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3a860"]
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f774m"]
+albedo_color = Color(0.677609, 0, 0.253004, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nc7kg"]
+material = SubResource("StandardMaterial3D_f774m")
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+script = ExtResource("1_ne2l1")
+
+[node name="Standing" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_hvphs")
+
+[node name="Crouching" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.599839, 0)
+shape = SubResource("CapsuleShape3D_3a860")
+disabled = true
+
+[node name="Neck" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="Head" type="Node3D" parent="Neck"]
+
+[node name="Eyes" type="Node3D" parent="Neck/Head"]
+
+[node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes"]
+
+[node name="Gun" parent="Neck/Head/Eyes/Camera3D" instance=ExtResource("2_g0avc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.447223, -0.179658, -0.342664)
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00388658, 1.00817, 0.0198991)
+mesh = SubResource("CapsuleMesh_nc7kg")

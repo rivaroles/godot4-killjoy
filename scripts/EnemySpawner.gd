@@ -1,27 +1,20 @@
 extends Node3D
 
 const ENEMY = preload("res://scenes/Enemy.tscn")
-@onready var random = RandomNumberGenerator.new()
+@onready var spawns = $SpawnHolder
+@onready var nav_region = $Stage/NavigationRegion3D
 
-var dead_enemies = 0
+var instance
 
 func _ready():
-	add_to_group("World")
-	
-func enemy_death():
-	print("enemy dead" + dead_enemies)
-	dead_enemies += 1
-	
-func spawn_enemies():
-	print("enemy spawned")
-	var spawned = ENEMY.instantiate()
-	var spawn_length = $"Spawn Holder".get_child_count() - 1
-	var rand_num = random.randi_range(0, spawn_length)
-	var spawn_position = $"Spawn Holder".get_child(rand_num).position
-	
-	spawned.position = spawn_position
-	add_child(spawned)
-	
+	randomize()
 
-func update_level():
-	spawn_enemies()
+func _get_random_child(parent_node):
+	var random_id = randi() % parent_node.get_child_count()
+	return parent_node.get_child(random_id)
+	
+func _on_spawner_timer_timeout():
+	var spawn_point = _get_random_child(spawns).global_position
+	instance = ENEMY.instantiate()
+	instance.position = spawn_point
+	nav_region.add_child(instance)

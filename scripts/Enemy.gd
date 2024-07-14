@@ -5,7 +5,7 @@ var health = 10.0
 
 const  SPEED = 4.0
 
-@export var player_path : NodePath
+@export var player_path := "/root/World/Stage/NavigationRegion3D/Player"
 
 @onready var nav_agent = $NavigationAgent3D
 @onready var animation_player = $AnimationPlayer
