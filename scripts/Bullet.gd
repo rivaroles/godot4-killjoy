@@ -1,6 +1,6 @@
 extends Area3D
 
-const BULLET_SPEED = 80.0
+const BULLET_SPEED = 100.0
 
 @onready var mesh_instance = $MeshInstance3D
 @onready var ray_cast = $RayCast3D

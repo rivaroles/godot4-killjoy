@@ -2,29 +2,42 @@
 
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_l6rqt"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yjt2y"]
-albedo_color = Color(0.948771, 0, 0.194284, 1)
-uv1_triplanar = true
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a4lb1"]
+resource_local_to_scene = true
+albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_cm8j4"]
-material = SubResource("StandardMaterial3D_yjt2y")
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0fela"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_a4lb1")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7rrmc"]
 
 [sub_resource type="Animation" id="Animation_7u7j5"]
 resource_name = "Hurt"
-length = 0.3
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:emission_enabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(4.7887e-05, 1e-05, 1e-05),
+"times": PackedFloat32Array(0, 0.0001, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:mesh:material:emission")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.948771, 0, 0.194284, 1), Color(1, 1, 1, 1), Color(0.948771, 0, 0.194284, 1)]
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_0veww"]
@@ -32,14 +45,26 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:emission_enabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:mesh:material:emission")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.948771, 0, 0.194284, 1)]
+"values": [Color(0, 0, 0, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eope4"]
@@ -53,7 +78,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_l6rqt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_cm8j4")
+mesh = SubResource("CapsuleMesh_0fela")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_7rrmc")

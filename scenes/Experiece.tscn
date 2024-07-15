@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://726gbos28jld"]
+[gd_scene load_steps=4 format=3 uid="uid://726gbos28jld"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yduqo"]
 
@@ -15,26 +15,11 @@ refraction_texture_channel = 1
 material = SubResource("StandardMaterial3D_aqgsa")
 size = Vector3(0.3, 0.3, 0.3)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_87tbf"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1t73"]
-albedo_color = Color(0.52549, 0.894118, 0.894118, 0.741176)
-emission_enabled = true
-emission = Color(0.470985, 0.861281, 0.821818, 1)
-emission_energy_multiplier = 8.0
-
-[sub_resource type="BoxMesh" id="BoxMesh_4i7te"]
-material = SubResource("StandardMaterial3D_c1t73")
-size = Vector3(0.08, 0.08, 0.08)
-
 [node name="Area3D" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_yduqo")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_j5eqv")
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-process_material = SubResource("ShaderMaterial_87tbf")
-draw_pass_1 = SubResource("BoxMesh_4i7te")
