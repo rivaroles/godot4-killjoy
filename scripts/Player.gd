@@ -8,14 +8,15 @@ extends CharacterBody3D
 @onready var crouching_position = $Crouching
 @onready var roof_check = $RoofCheck
 @onready var camera_3d = $Neck/Head/Eyes/Camera3D
-@onready var exp_collector = $ExpCollector
 
 
 # Health nodes
 var health = 120.0
 
 # Level nodes
-var level = 0
+var experience = 0
+var experience_level = 1
+var collected_experience = 0
 
 # Gun nodes
 @onready var gun_barrel = $Neck/Head/Eyes/Camera3D/Blaster/RayCast3D

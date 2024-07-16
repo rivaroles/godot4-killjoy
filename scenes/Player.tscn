@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cufc0bo13clby"]
+[gd_scene load_steps=11 format=3 uid="uid://cufc0bo13clby"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_ne2l1"]
 [ext_resource type="PackedScene" uid="uid://cwk1j0k4x4jca" path="res://scenes/Gun.tscn" id="2_g0avc"]
@@ -16,8 +16,11 @@ albedo_color = Color(0.218088, 0.312549, 0.734975, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_nc7kg"]
 material = SubResource("StandardMaterial3D_f774m")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_8b6q1"]
+radius = 0.779055
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_0firu"]
-radius = 1.8
+radius = 1.2878
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
@@ -71,7 +74,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00388658, 1.00817, 0.01989
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_nc7kg")
 
-[node name="ExpCollector" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04994, 0)
+[node name="CollectArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53745, 0)
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CollectArea"]
+shape = SubResource("SphereShape3D_8b6q1")
+
+[node name="GrabArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.23661, 0)
+collision_layer = 0
+collision_mask = 8
+
+[node name="ExpCollector" type="CollisionShape3D" parent="GrabArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.886345, 0)
 shape = SubResource("SphereShape3D_0firu")
-disabled = true
