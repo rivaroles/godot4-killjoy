@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://54xfwed2lhos"]
+[gd_scene load_steps=14 format=3 uid="uid://54xfwed2lhos"]
 
 [ext_resource type="Script" path="res://scripts/EnemySpawner.gd" id="1_f5vu0"]
 [ext_resource type="Texture2D" uid="uid://be8vs1c5djbqc" path="res://assets/hdris/sunflowers_puresky_4k.hdr" id="1_i7hfp"]
 [ext_resource type="PackedScene" uid="uid://fg24gthlse1n" path="res://scenes/Water.tscn" id="2_ndk50"]
 [ext_resource type="MeshLibrary" uid="uid://2ja2dux5qb0q" path="res://assets/mesh library/Prototype tiles.tres" id="4_rn1vd"]
 [ext_resource type="PackedScene" uid="uid://cufc0bo13clby" path="res://scenes/Player.tscn" id="5_x5ip1"]
+[ext_resource type="Texture2D" uid="uid://cxarsoduaos3r" path="res://assets/textures/texture_05.png" id="6_k2v8i"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_vchvj"]
 panorama = ExtResource("1_i7hfp")
@@ -24,7 +25,12 @@ polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(5, 4, 3), PackedInt32Arr
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tx3r6"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_icbgp"]
+albedo_texture = ExtResource("6_k2v8i")
+uv1_triplanar = true
+
 [sub_resource type="BoxMesh" id="BoxMesh_4tbvx"]
+material = SubResource("StandardMaterial3D_icbgp")
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_f5vu0")
@@ -61,6 +67,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
 navigation_mesh = SubResource("NavigationMesh_ay5dn")
 
 [node name="Player" parent="Stage/NavigationRegion3D" instance=ExtResource("5_x5ip1")]
+collision_mask = 3
 
 [node name="GridMap" type="GridMap" parent="Stage/NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -75,18 +82,22 @@ metadata/_editor_floor_ = Vector3(0, 5, 0)
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="Stage"]
 transform = Transform3D(-2.44109e-06, 0, -1, 0, -13.8016, 0, 55.8456, 0, -4.37114e-08, 49.2274, 7.34983, 8.44164)
+use_collision = true
 mesh = SubResource("BoxMesh_4tbvx")
 
 [node name="CSGMesh3D3" type="CSGMesh3D" parent="Stage"]
 transform = Transform3D(-54.1818, 0, 8.74227e-08, 0, -13.8016, 0, -4.73672e-06, 0, -1, 5.48787, 7.34983, -34.7297)
+use_collision = true
 mesh = SubResource("BoxMesh_4tbvx")
 
 [node name="CSGMesh3D4" type="CSGMesh3D" parent="Stage"]
 transform = Transform3D(-61.856, 0, 8.74227e-08, 0, -13.8016, 0, -5.40763e-06, 0, -1, 4.98745, 7.34983, 55.3151)
+use_collision = true
 mesh = SubResource("BoxMesh_4tbvx")
 
 [node name="CSGMesh3D2" type="CSGMesh3D" parent="Stage"]
 transform = Transform3D(-2.70495e-06, 0, -1, 0, -13.8016, 0, 61.882, 0, -4.37114e-08, -46.8691, 7.34983, 4.87704)
+use_collision = true
 mesh = SubResource("BoxMesh_4tbvx")
 
 [node name="SpawnerTimer" type="Timer" parent="."]
