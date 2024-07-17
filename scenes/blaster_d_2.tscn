@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbjcbvkhjj3au"]
+
+[ext_resource type="PackedScene" uid="uid://b2tsngahdh2ou" path="res://assets/models/blasterD.glb" id="1_3y3d4"]
+
+[node name="blasterD2" instance=ExtResource("1_3y3d4")]
+
+[node name="blasterD" parent="." index="0"]
+cast_shadow = 0

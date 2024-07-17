@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://b851ilew2leus"]
+[gd_scene load_steps=9 format=3 uid="uid://b851ilew2leus"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_l6rqt"]
+[ext_resource type="AudioStream" uid="uid://b6x80ns1j3m78" path="res://sounds/Enemy Hurts.mp3" id="2_8rf4g"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a4lb1"]
 resource_local_to_scene = true
@@ -89,3 +90,9 @@ shape = SubResource("CapsuleShape3D_7rrmc")
 libraries = {
 "": SubResource("AnimationLibrary_eope4")
 }
+
+[node name="EnemyHurtSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_8rf4g")
+volume_db = -20.0
+
+[connection signal="finished" from="EnemyHurtSound" to="." method="_on_enemy_hurt_sound_finished"]

@@ -8,7 +8,7 @@ extends Area3D
 
 
 var target = null
-var speed = 0
+var speed = -0.3
 
 func _ready():
 	animation_player.play("Common")
@@ -21,4 +21,5 @@ func _physics_process(_delta):
 func collect():
 	collision_area.call_deferred("set", "disabled", true)
 	mesh_exp.visible = false
+	print("exp collected")
 	return experience

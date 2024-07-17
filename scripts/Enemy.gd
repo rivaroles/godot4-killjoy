@@ -13,6 +13,9 @@ const EXPERIENCE := preload("res://scenes/Experiece.tscn")
 @onready var nav_agent = $NavigationAgent3D
 @onready var animation_player = $AnimationPlayer
 @onready var mesh_instance_3d = $MeshInstance3D
+@onready var enemy_hurt_sound = $EnemyHurtSound
+@onready var collision_shape_3d = $CollisionShape3D
+
 
 func _ready():
 	player = get_node(player_path)
@@ -38,6 +41,10 @@ func take_damage():
 	animation_player.play("Hurt")
 	
 	if health == 0:
-		queue_free()
+		enemy_hurt_sound.play()
+		collision_shape_3d.call_deferred("set", "disabled", true)
+		mesh_instance_3d.visible = false
 		exp_drop()
 	
+func _on_enemy_hurt_sound_finished():
+	queue_free()

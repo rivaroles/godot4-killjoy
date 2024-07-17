@@ -8,7 +8,9 @@ extends CharacterBody3D
 @onready var crouching_position = $Crouching
 @onready var roof_check = $RoofCheck
 @onready var camera_3d = $Neck/Head/Eyes/Camera3D
-
+@onready var jump_sound = $Sounds/JumpSound
+@onready var shoot_sound = $Sounds/ShootSound
+@onready var jetpack_sound = $Sounds/JetpackSound
 
 # Health nodes
 var health = 120.0
@@ -107,8 +109,8 @@ func _process(_delta):
 	
 	# Quitting the game (change to menu later)
 	
-	if Input.is_action_just_pressed("quit"):
-		get_tree().quit()
+	if Input.is_action_just_pressed("pause"):
+		get_tree().paused = true
 
 func _physics_process(_delta):
 	
@@ -180,6 +182,7 @@ func _physics_process(_delta):
 	# Handle shooting
 	if Input.is_action_pressed("shoot"):
 		if !gun.is_playing():
+			shoot_sound.play()
 			gun.play("Shoot")
 			instance = bullet.instantiate()
 			instance.position = gun_barrel.global_position
@@ -216,6 +219,7 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("jump") && is_on_floor() && crouching != true:
 		velocity.y = JUMP_VELOCITY
 		sliding = false
+		jump_sound.play()
 	
 	elif Input.is_action_pressed("jump") && !is_on_floor() && jetpack_fuel > 0:
 		velocity.y += JETPACK_FORCE * _delta
@@ -245,3 +249,40 @@ func _physics_process(_delta):
 	if global_transform.origin.y > MAX_HEIGHT:
 		global_transform.origin.y = MAX_HEIGHT
 		velocity.y = 0
+
+
+func _on_grab_area_area_entered(area):
+	if area.is_in_group("loot"):
+		area.target = self
+
+
+func _on_collect_area_area_entered(area):
+	if area.is_in_group("loot"):
+		var gem_exp = area.collect()
+		calculate_experience(gem_exp)
+		
+func calculate_experience(gem_exp):
+	var exp_required = calculate_experiencecap()
+	collected_experience += gem_exp
+	if experience + collected_experience >= exp_required:
+		collected_experience -= exp_required - experience
+		experience_level += 1
+		print("Level:", experience_level)
+		experience = 0
+		exp_required = calculate_experiencecap()
+		calculate_experience(0)
+	else:
+		experience += collected_experience
+		collected_experience = 0
+	
+func calculate_experiencecap():
+	var exp_cap = experience_level
+	if experience_level < 20:
+		exp_cap = experience_level * 5
+	elif experience_level < 40:
+		exp_cap + 95 * (experience_level - 19) * 8
+	else:
+		exp_cap = 255 + (experience_level - 39) * 12
+		
+	return exp_cap
+
