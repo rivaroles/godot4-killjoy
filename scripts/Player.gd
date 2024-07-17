@@ -11,9 +11,10 @@ extends CharacterBody3D
 @onready var jump_sound = $Sounds/JumpSound
 @onready var shoot_sound = $Sounds/ShootSound
 @onready var jetpack_sound = $Sounds/JetpackSound
+@onready var shoot_timer = $ShootTimer
 
 # Health nodes
-var health = 120.0
+var hp = 120.0
 
 # Level nodes
 var experience = 0
@@ -286,3 +287,6 @@ func calculate_experiencecap():
 		
 	return exp_cap
 
+func _on_hurt_box_hurt(damage):
+	hp -= damage
+	print(hp)

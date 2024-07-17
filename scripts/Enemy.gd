@@ -15,10 +15,14 @@ const EXPERIENCE := preload("res://scenes/Experiece.tscn")
 @onready var mesh_instance_3d = $MeshInstance3D
 @onready var enemy_hurt_sound = $EnemyHurtSound
 @onready var collision_shape_3d = $CollisionShape3D
+@onready var hit_box = $HitBox
 
+# Get player
 
 func _ready():
 	player = get_node(player_path)
+
+# Enemy Movement
 
 func _process(_delta):
 	
@@ -40,11 +44,19 @@ func take_damage():
 	health -= 1
 	animation_player.play("Hurt")
 	
-	if health == 0:
-		enemy_hurt_sound.play()
-		collision_shape_3d.call_deferred("set", "disabled", true)
-		mesh_instance_3d.visible = false
-		exp_drop()
+	if health <= 0:
+		death()
+		
+func death():
+	enemy_hurt_sound.play()
+	collision_shape_3d.call_deferred("set", "disabled", true)
+	hit_box.call_deferred("set", "disabled", true)
+	hit_box.damage = 0
+	mesh_instance_3d.visible = false
+	exp_drop()
 	
 func _on_enemy_hurt_sound_finished():
 	queue_free()
+
+func _on_hurt_box_hurt(_damage):
+	take_damage()

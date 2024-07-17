@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://b851ilew2leus"]
+[gd_scene load_steps=13 format=3 uid="uid://b851ilew2leus"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_l6rqt"]
 [ext_resource type="AudioStream" uid="uid://b6x80ns1j3m78" path="res://sounds/Enemy Hurts.mp3" id="2_8rf4g"]
+[ext_resource type="PackedScene" uid="uid://bygkamtqmh7ly" path="res://scenes/hit_box.tscn" id="3_ihumt"]
+[ext_resource type="PackedScene" uid="uid://c4etog8ry3fxy" path="res://scenes/hurt_box.tscn" id="3_sj2gg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a4lb1"]
 resource_local_to_scene = true
@@ -74,6 +76,12 @@ _data = {
 "RESET": SubResource("Animation_0veww")
 }
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h6sis"]
+radius = 0.57991
+height = 1.86478
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_epmwe"]
+
 [node name="Enemy" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_l6rqt")
@@ -82,6 +90,7 @@ script = ExtResource("1_l6rqt")
 mesh = SubResource("CapsuleMesh_0fela")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape3D_7rrmc")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
@@ -95,4 +104,22 @@ libraries = {
 stream = ExtResource("2_8rf4g")
 volume_db = -20.0
 
+[node name="HitBox" parent="." instance=ExtResource("3_ihumt")]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" parent="HitBox" index="0"]
+shape = SubResource("CapsuleShape3D_h6sis")
+
+[node name="HurtBox" parent="." instance=ExtResource("3_sj2gg")]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" parent="HurtBox" index="0"]
+shape = SubResource("CapsuleShape3D_epmwe")
+
 [connection signal="finished" from="EnemyHurtSound" to="." method="_on_enemy_hurt_sound_finished"]
+[connection signal="hurt" from="HurtBox" to="." method="_on_hurt_box_hurt"]
+
+[editable path="HitBox"]
+[editable path="HurtBox"]
