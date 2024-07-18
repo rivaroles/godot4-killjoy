@@ -1,4 +1,9 @@
-[gd_scene format=3 uid="uid://ctxuncvq4ttvb"]
+[gd_scene load_steps=3 format=3 uid="uid://ctxuncvq4ttvb"]
+
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_fi70o"]
+
+[sub_resource type="Theme" id="Theme_fytcf"]
+default_font_size = 30
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
@@ -7,11 +12,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_fi70o")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_right = 1155.0
-offset_bottom = 646.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.0509804, 0.0588235, 0.121569, 0.2)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -21,10 +30,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -35.0
-offset_top = -46.5
-offset_right = 35.0
-offset_bottom = 46.5
+offset_left = -204.0
+offset_top = -119.0
+offset_right = -2.0
+offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2, 2)
@@ -32,6 +41,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+theme = SubResource("Theme_fytcf")
 text = "PAUSED"
 horizontal_alignment = 1
 
@@ -42,3 +52,6 @@ text = "Resume"
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Quit"
+
+[connection signal="pressed" from="VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

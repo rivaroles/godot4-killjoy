@@ -14,12 +14,20 @@ extends CharacterBody3D
 @onready var shoot_timer = $ShootTimer
 @onready var health_bar = $GUI/Control/HealthBar
 @onready var fuel_bar = $GUI/Control/FuelBar
+@onready var game_over = $Menus/GameOver
+@onready var pause_menu = $Menus/PauseMenu
+@onready var player_hurt_sound = $Sounds/PlayerHurtSound
+@onready var score_label = $GUI/Control/ScoreLabel
 
-# Health nodes
-var hp = 80
-var maxhp = 80
+# Health vars
+var hp = 5
+var maxhp = 5
 
-# Level nodes
+# Score vars
+
+var score_value = 0
+
+# Level vars
 var experience = 0
 var experience_level = 1
 var collected_experience = 0
@@ -95,7 +103,10 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	game_over.hide()
 	_on_hurt_box_hurt(0)
+	get_tree().paused = false
+	pause_menu.hide()
 	
 func _input(event):
 	
@@ -112,10 +123,10 @@ func _input(event):
 
 func _process(_delta):
 	
-	# Quitting the game (change to menu later)
-	
 	if Input.is_action_just_pressed("pause"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().paused = true
+		pause_menu.show()
 
 func _physics_process(_delta):
 	
@@ -269,6 +280,12 @@ func _on_collect_area_area_entered(area):
 	if area.is_in_group("loot"):
 		var gem_exp = area.collect()
 		calculate_experience(gem_exp)
+		calculate_score()
+		
+func calculate_score():
+		var score_collected = 1
+		score_value += score_collected
+		score_label.text = "Score: %s" % score_value
 		
 func calculate_experience(gem_exp):
 	var exp_required = calculate_experiencecap()
@@ -299,3 +316,12 @@ func _on_hurt_box_hurt(damage):
 	hp -= damage
 	health_bar.max_value = maxhp
 	health_bar.value = hp
+	
+	if hp <= 0:
+		death()
+	
+func death():
+	get_tree().paused = true
+	player_hurt_sound.play()
+	game_over.show()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
