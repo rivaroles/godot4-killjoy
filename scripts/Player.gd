@@ -12,9 +12,12 @@ extends CharacterBody3D
 @onready var shoot_sound = $Sounds/ShootSound
 @onready var jetpack_sound = $Sounds/JetpackSound
 @onready var shoot_timer = $ShootTimer
+@onready var health_bar = $GUI/Control/HealthBar
+@onready var fuel_bar = $GUI/Control/FuelBar
 
 # Health nodes
-var hp = 120.0
+var hp = 80
+var maxhp = 80
 
 # Level nodes
 var experience = 0
@@ -55,8 +58,8 @@ var slide_speed = 10.0
 # Jetpack vars
 
 const JETPACK_FORCE = 10.0
-const MAX_JETPACK_FUEL = 10.0
 
+var jetpack_max_fuel = 10.0
 var jetpack_fuel = 10.0
 var fuel_consumption = 3.0
 var fuel_recharge = 0.5
@@ -92,6 +95,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	_on_hurt_box_hurt(0)
 	
 func _input(event):
 	
@@ -225,9 +229,13 @@ func _physics_process(_delta):
 	elif Input.is_action_pressed("jump") && !is_on_floor() && jetpack_fuel > 0:
 		velocity.y += JETPACK_FORCE * _delta
 		jetpack_fuel -= fuel_consumption * _delta
+		crouching_position.call_deferred("set", "disabled", true)
 	
 	elif is_on_floor():
-		jetpack_fuel = min(jetpack_fuel + fuel_recharge * _delta, MAX_JETPACK_FUEL)
+		jetpack_fuel = min(jetpack_fuel + fuel_recharge * _delta, jetpack_max_fuel)
+		
+	fuel_bar.max_value = jetpack_max_fuel
+	fuel_bar.value = jetpack_fuel
 
 	direction = lerp(direction, (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized(), _delta * lerp_speed)
 	
@@ -289,4 +297,5 @@ func calculate_experiencecap():
 
 func _on_hurt_box_hurt(damage):
 	hp -= damage
-	print(hp)
+	health_bar.max_value = maxhp
+	health_bar.value = hp
